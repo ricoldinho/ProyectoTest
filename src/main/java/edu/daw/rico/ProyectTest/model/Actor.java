@@ -25,6 +25,17 @@ public class Actor {
     public Actor() {
     }
 
+    
+
+    public Actor(String nombre, String apellido, LocalDate fecha_nacimiento, boolean oscarizado) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.oscarizado = oscarizado;
+    }
+
+
+
     public Actor(Long actor_id, String nombre, String apellido, LocalDate fecha_nacimiento, boolean oscarizado) {
         this.actor_id = actor_id;
         this.nombre = nombre;
