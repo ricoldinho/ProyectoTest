@@ -16,7 +16,7 @@ public class Actor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_actor;
+    private Long actor_id;
     private String nombre;
     private String apellido;    
     private LocalDate fecha_nacimiento;
@@ -25,8 +25,8 @@ public class Actor {
     public Actor() {
     }
 
-    public Actor(Long id_actor, String nombre, String apellido, LocalDate fecha_nacimiento, boolean oscarizado) {
-        this.id_actor = id_actor;
+    public Actor(Long actor_id, String nombre, String apellido, LocalDate fecha_nacimiento, boolean oscarizado) {
+        this.actor_id = actor_id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fecha_nacimiento = fecha_nacimiento;
@@ -34,11 +34,11 @@ public class Actor {
     }
 
     public Long getId_actor() {
-        return id_actor;
+        return actor_id;
     }
 
     public void setId_actor(Long id_actor) {
-        this.id_actor = id_actor;
+        this.actor_id = id_actor;
     }
 
     public String getNombre() {
@@ -75,7 +75,7 @@ public class Actor {
 
     @Override
     public String toString() {
-        return "Actor [id_actor=" + id_actor + ", nombre=" + nombre + ", apellido=" + apellido + ", fecha_nacimiento="
+        return "Actor [id_actor=" + actor_id + ", nombre=" + nombre + ", apellido=" + apellido + ", fecha_nacimiento="
                 + fecha_nacimiento + ", oscarizado=" + oscarizado + "]";
     }
 

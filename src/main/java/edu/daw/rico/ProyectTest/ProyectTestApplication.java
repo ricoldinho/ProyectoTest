@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import edu.daw.rico.ProyectTest.services.IActoresService;
+import edu.daw.rico.ProyectTest.services.IPeliculasService;
 
 @SpringBootApplication
 public class ProyectTestApplication implements CommandLineRunner{
@@ -17,12 +18,14 @@ public class ProyectTestApplication implements CommandLineRunner{
 	@Autowired
 	private IActoresService actoresService;
 
+	@Autowired
+	private IPeliculasService peliculasService;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Aplicación iniciada");
 		System.out.println(actoresService.listarActores());
-		System.out.println("Eliminando actor con id 2: " + actoresService.eliminarActorPorId(2L));
-		
+		System.out.println(peliculasService.listarPeliculas());
 	}
 
 }

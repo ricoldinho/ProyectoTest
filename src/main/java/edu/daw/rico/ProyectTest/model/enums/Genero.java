@@ -7,5 +7,6 @@ public enum Genero {
     ACCION,
     FANTASIA,
     TERROR,
-    ANIMACION
+    ANIMACION,
+    CIENCIA_FICCION
 }

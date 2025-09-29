@@ -3,10 +3,23 @@ package edu.daw.rico.ProyectTest.model;
 import java.time.LocalDate;
 
 import edu.daw.rico.ProyectTest.model.enums.Genero;
+import jakarta.persistence.Entity;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "peliculas")
 public class Pelicula {
-    private Long id_pelicula;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long pelicula_id;
     private String titulo;
+    @Enumerated(EnumType.STRING)
     private Genero genero;
     private int duracion;
     private LocalDate fecha_estreno;
@@ -14,8 +27,8 @@ public class Pelicula {
     public Pelicula() {
     }
 
-    public Pelicula(Long id_pelicula, String titulo, Genero genero, int duracion, LocalDate fecha_estreno) {
-        this.id_pelicula = id_pelicula;
+    public Pelicula(Long pelicula_id, String titulo, Genero genero, int duracion, LocalDate fecha_estreno) {
+        this.pelicula_id = pelicula_id;
         this.titulo = titulo;
         this.genero = genero;
         this.duracion = duracion;
@@ -23,11 +36,11 @@ public class Pelicula {
     }
 
     public Long getId_pelicula() {
-        return id_pelicula;
+        return pelicula_id;
     }
 
-    public void setId_pelicula(Long id_pelicula) {
-        this.id_pelicula = id_pelicula;
+    public void setId_pelicula(Long pelicula_id) {
+        this.pelicula_id = pelicula_id;
     }
 
     public String getTitulo() {
@@ -64,7 +77,7 @@ public class Pelicula {
 
     @Override
     public String toString() {
-        return "Pelicula [id_pelicula=" + id_pelicula + ", titulo=" + titulo + ", genero=" + genero + ", duracion="
+        return "Pelicula [id_pelicula=" + pelicula_id + ", titulo=" + titulo + ", genero=" + genero + ", duracion="
                 + duracion + ", fecha_estreno=" + fecha_estreno + "]";
     }
 
