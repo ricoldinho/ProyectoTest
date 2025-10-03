@@ -6,4 +6,8 @@ import edu.daw.rico.ProyectTest.model.Pelicula;
 
 public interface IPeliculasService {
     public List<Pelicula> listarPeliculas();
+    public void eliminarPeliculaPorId(Long id);
+    public Pelicula listarPeliculaPorId(Long id);
+    public Pelicula modificarPorId(Pelicula pelicula);
+    public Pelicula insertarPelicula(Pelicula pelicula);
 }
