@@ -2,11 +2,13 @@ package edu.daw.rico.ProyectTest.services;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.daw.rico.ProyectTest.model.Actor;
 import edu.daw.rico.ProyectTest.repositories.IActoresRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ActoresService implements IActoresService {
@@ -17,6 +19,19 @@ public class ActoresService implements IActoresService {
     @Override
     public List<Actor> listarActores() {
         return actoresRepo.findAll();
+    }
+
+    @Transactional(readOnly = true) // Mantiene la sesión abierta y es solo de lectura (más eficiente)
+    public List<Actor> listarActoresConPeliculas() {
+        List<Actor> actores = actoresRepo.findAll();
+        
+        // Forzamos la inicialización DENTRO de la transacción
+        for (Actor actor : actores) {
+            Hibernate.initialize(actor.getPeliculas()); // La forma más elegante y explícita
+            // Alternativa más simple: actor.getPeliculas().size(); // "Tocar" la lista es suficiente
+        }
+        
+        return actores;
     }
 
     @Override
