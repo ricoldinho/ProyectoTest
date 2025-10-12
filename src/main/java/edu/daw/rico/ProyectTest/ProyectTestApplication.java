@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import edu.daw.rico.ProyectTest.model.Actor;
 import edu.daw.rico.ProyectTest.services.IActoresService;
+import edu.daw.rico.ProyectTest.services.ICriticasService;
 import edu.daw.rico.ProyectTest.services.IPeliculasService;
 
 @SpringBootApplication
@@ -23,12 +24,14 @@ public class ProyectTestApplication implements CommandLineRunner{
 
 	@Autowired
 	private IPeliculasService peliculasService;
+
+	@Autowired ICriticasService criticasService;
 	
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Aplicación iniciada");
 		
-		System.out.println(actoresService.listarActoresConPeliculas());
+		System.out.println(criticasService.listarCriticas());
 		
 	}
 

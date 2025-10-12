@@ -1,6 +1,5 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -10,13 +9,15 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS peliculas_spring DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE peliculas_spring;
 
-CREATE TABLE actores (
-  actor_id bigint NOT NULL,
+DROP TABLE IF EXISTS actores;
+CREATE TABLE IF NOT EXISTS actores (
+  actor_id bigint NOT NULL AUTO_INCREMENT,
   nombre varchar(255) DEFAULT NULL,
   apellido varchar(255) DEFAULT NULL,
   fecha_nacimiento date NOT NULL,
-  oscarizado bit(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  oscarizado bit(1) NOT NULL,
+  PRIMARY KEY (actor_id)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO actores (actor_id, nombre, apellido, fecha_nacimiento, oscarizado) VALUES
 (1, 'Tom', 'Hanks', '1956-07-09', b'1'),
@@ -45,9 +46,12 @@ INSERT INTO actores (actor_id, nombre, apellido, fecha_nacimiento, oscarizado) V
 (24, 'Anya', 'Taylor-Joy', '1996-04-16', b'0'),
 (25, 'Cillian', 'Murphy', '1976-05-25', b'1');
 
-CREATE TABLE actores_peliculas (
+DROP TABLE IF EXISTS actores_peliculas;
+CREATE TABLE IF NOT EXISTS actores_peliculas (
   actor_id bigint NOT NULL,
-  pelicula_id bigint NOT NULL
+  pelicula_id bigint NOT NULL,
+  PRIMARY KEY (actor_id,pelicula_id),
+  KEY actores_peliculasToPeliculasFK (pelicula_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO actores_peliculas (actor_id, pelicula_id) VALUES
@@ -68,13 +72,49 @@ INSERT INTO actores_peliculas (actor_id, pelicula_id) VALUES
 (9, 10),
 (18, 10);
 
-CREATE TABLE peliculas (
+DROP TABLE IF EXISTS criticas;
+CREATE TABLE IF NOT EXISTS criticas (
+  critica_id bigint NOT NULL AUTO_INCREMENT,
+  fecha date NOT NULL,
+  autor varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Anónimo',
+  valoracion enum('1','2','3','4','5') NOT NULL,
+  cuerpo text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   pelicula_id bigint NOT NULL,
+  PRIMARY KEY (critica_id),
+  KEY criticasToPeliculasFK (pelicula_id)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO criticas (critica_id, fecha, autor, valoracion, cuerpo, pelicula_id) VALUES
+(1, '2024-01-15', 'Elena García', '5', 'Una obra maestra conmovedora. Tom Hanks está espectacular. Un viaje emocional inolvidable.', 1),
+(2, '2024-02-20', 'Marcos Sánchez', '5', 'Película icónica con una historia que te atrapa de principio a fin. Absolutamente recomendable.', 1),
+(3, '2023-11-10', 'Lucía Fernández', '4', 'Meryl Streep se roba la película. Una comedia inteligente y con mucho estilo. Muy entretenida.', 2),
+(4, '2023-12-05', 'Javier Torres', '4', 'Divertida, ingeniosa y con un vestuario espectacular. Anne Hathaway y Meryl Streep tienen una química increíble.', 2),
+(5, '2024-03-01', 'Sofía Romero', '5', 'Un thriller de ciencia ficción que te vuela la cabeza. Visualmente impresionante y con un guion brillante.', 3),
+(6, '2024-04-12', 'David Alonso', '5', 'Compleja pero fascinante. Christopher Nolan en su máxima expresión. Te deja pensando días después.', 3),
+(7, '2023-08-19', 'Adrián Navarro', '5', 'El final perfecto para una saga legendaria. Épica, emocionante y llena de acción. Un hito del cine.', 4),
+(8, '2023-09-25', 'Paula Mendoza', '4', 'Un espectáculo visual y narrativo. Satisface a los fans y cierra todas las tramas de forma magistral.', 4),
+(9, '2024-05-18', 'Sergio Ruiz', '5', 'Denzel Washington ofrece una de las mejores actuaciones de su carrera. Un thriller policial crudo e intenso.', 5),
+(10, '2024-06-21', 'María Jiménez', '4', 'La tensión no decae en ningún momento. Un guion potente y unas interpretaciones memorables.', 5),
+(11, '2023-10-30', 'Daniel Vega', '5', 'Un thriller psicológico absorbente y perturbador. Natalie Portman está increíble en su papel.', 6),
+(12, '2023-11-15', 'Cristina Muñoz', '4', 'Visualmente hipnótica y narrativamente angustiante. Una película que no te deja indiferente.', 6),
+(13, '2024-07-07', 'Pablo Gil', '5', 'Una película de culto con un giro final legendario. Provocadora, inteligente y con un estilo único.', 7),
+(14, '2024-08-14', 'Laura Moreno', '5', 'Una crítica mordaz a la sociedad de consumo. Sigue siendo tan relevante hoy como en su estreno.', 7),
+(15, '2024-01-05', 'Jorge Pascual', '5', 'Considerada por muchos la mejor película de la historia, y con razón. Una historia de esperanza inolvidable.', 8),
+(16, '2024-02-11', 'Irene Soto', '5', 'Emotiva, poderosa y perfectamente narrada. Las actuaciones de Robbins y Freeman son magistrales.', 8),
+(17, '2023-07-22', 'Miguel Ángel Cano', '5', 'El Joker de Heath Ledger es historia del cine. Más que una película de superhéroes, es un thriller criminal.', 9),
+(18, '2023-08-28', 'Sara Pons', '5', 'Una obra maestra del género. Oscura, compleja y con una trama que te mantiene pegado a la pantalla.', 9),
+(19, '2023-09-13', 'Francisco Ríos', '5', 'Tarantino cambió las reglas del juego con esta película. Diálogos brillantes y una estructura narrativa genial.', 10),
+(20, '2023-10-18', 'Beatriz Roca', '5', 'Violenta, divertida y original. Un clásico moderno que hay que ver sí o sí. Pura genialidad.', 10);
+
+DROP TABLE IF EXISTS peliculas;
+CREATE TABLE IF NOT EXISTS peliculas (
+  pelicula_id bigint NOT NULL AUTO_INCREMENT,
   titulo varchar(255) NOT NULL,
   genero enum('ACCION','ANIMACION','CIENCIA_FICCION','COMEDIA','DRAMA','FANTASIA','TERROR','THRILLER') DEFAULT NULL,
   duracion int NOT NULL,
-  fecha_estreno date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  fecha_estreno date NOT NULL,
+  PRIMARY KEY (pelicula_id)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO peliculas (pelicula_id, titulo, genero, duracion, fecha_estreno) VALUES
 (1, 'Forrest Gump', 'DRAMA', 142, '1994-07-06'),
@@ -89,27 +129,12 @@ INSERT INTO peliculas (pelicula_id, titulo, genero, duracion, fecha_estreno) VAL
 (10, 'Pulp Fiction', 'THRILLER', 154, '1994-10-14');
 
 
-ALTER TABLE actores
-  ADD PRIMARY KEY (actor_id);
-
-ALTER TABLE actores_peliculas
-  ADD PRIMARY KEY (actor_id,pelicula_id),
-  ADD KEY actores_peliculasToPeliculasFK (pelicula_id);
-
-ALTER TABLE peliculas
-  ADD PRIMARY KEY (pelicula_id);
-
-
-ALTER TABLE actores
-  MODIFY actor_id bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
-ALTER TABLE peliculas
-  MODIFY pelicula_id bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
-
 ALTER TABLE actores_peliculas
   ADD CONSTRAINT actores_peliculasToActoresFK FOREIGN KEY (actor_id) REFERENCES actores (actor_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT actores_peliculasToPeliculasFK FOREIGN KEY (pelicula_id) REFERENCES peliculas (pelicula_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE criticas
+  ADD CONSTRAINT criticasToPeliculasFK FOREIGN KEY (pelicula_id) REFERENCES peliculas (pelicula_id) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

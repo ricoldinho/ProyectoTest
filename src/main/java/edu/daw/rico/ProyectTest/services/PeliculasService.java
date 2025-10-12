@@ -1,6 +1,7 @@
 package edu.daw.rico.ProyectTest.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,21 @@ public class PeliculasService implements IPeliculasService {
     @Override
     public Pelicula insertarPelicula(Pelicula pelicula) {
         return peliculasRepo.save(pelicula);
+    }
+
+    @Override
+    public List<Pelicula> listarPeliculasConCriticas() {
+        return peliculasRepo.findAllConCriticas();
+    }
+
+    @Override
+    public Pelicula listarPeliculaPorIdConCritica(Long id) {
+        Optional<Pelicula> op = peliculasRepo.findByIdConCriticas(id);
+            if (op != null) {
+                return op.get();
+            }
+        System.out.println("ERROR EN BÚSQUEDA");
+        return null;
     }
 
 }

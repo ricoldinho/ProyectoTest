@@ -127,7 +127,7 @@ public class Actor {
     @Override
     public String toString() {
         return "Actor [actor_id=" + actor_id + ", nombre=" + nombre + ", apellido=" + apellido + ", fecha_nacimiento="
-                + fecha_nacimiento + ", oscarizado=" + oscarizado + ", peliculas=" + peliculas + "]";
+                + fecha_nacimiento + ", oscarizado=" + oscarizado + "]";
     }
 
 
