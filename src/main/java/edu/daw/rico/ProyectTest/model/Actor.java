@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,9 +23,13 @@ public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long actor_id;
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
-    private String apellido;    
+    @Column(name = "apellido", nullable = false, length = 100)
+    private String apellido;   
+    @Column(name = "fecha_nacimiento", nullable = false) 
     private LocalDate fecha_nacimiento;
+    @Column(name = "oscarizado", nullable = false)
     private boolean oscarizado;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -35,12 +40,8 @@ public class Actor {
         
     };
 
-
-
     public Actor() {
     }
-
-    
 
     public Actor(String nombre, String apellido, LocalDate fecha_nacimiento, boolean oscarizado) {
         this.nombre = nombre;
@@ -48,8 +49,6 @@ public class Actor {
         this.fecha_nacimiento = fecha_nacimiento;
         this.oscarizado = oscarizado;
     }
-
-
 
     public Actor(Long actor_id, String nombre, String apellido, LocalDate fecha_nacimiento, boolean oscarizado) {
         this.actor_id = actor_id;
@@ -104,25 +103,17 @@ public class Actor {
         return actor_id;
     }
 
-
-
     public void setActor_id(Long actor_id) {
         this.actor_id = actor_id;
     }
-
-
 
     public Set<Pelicula> getPeliculas() {
         return peliculas;
     }
 
-
-
     public void setPeliculas(Set<Pelicula> peliculas) {
         this.peliculas = peliculas;
     }
-
-
 
     @Override
     public String toString() {

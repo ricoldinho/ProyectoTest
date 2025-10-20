@@ -5,14 +5,17 @@ import java.util.List;
 
 import edu.daw.rico.ProyectTest.model.enums.Genero;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,14 +24,22 @@ public class Pelicula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pelicula_id;
+    @Column(name = "titulo", nullable = false, length = 255)
     private String titulo;
     @Enumerated(EnumType.STRING)
+    @Column(name = "genero", nullable = false)
     private Genero genero;
+    @Column(name = "duracion", nullable = false)
     private int duracion;
+    @Column(name = "fecha_estreno", nullable = false)
     private LocalDate fecha_estreno;
     
     @OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Critica> criticas;
+
+    @OneToOne(mappedBy = "pelicula", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private DetallesTaquilla detallesTaquilla;
+
 
     public Pelicula() {
     }
@@ -87,6 +98,22 @@ public class Pelicula {
 
     public void setCriticas(List<Critica> criticas) {
         this.criticas = criticas;
+    }
+
+    public Long getPelicula_id() {
+        return pelicula_id;
+    }
+
+    public void setPelicula_id(Long pelicula_id) {
+        this.pelicula_id = pelicula_id;
+    }
+
+    public DetallesTaquilla getDetallesTaquilla() {
+        return detallesTaquilla;
+    }
+
+    public void setDetallesTaquilla(DetallesTaquilla detallesTaquilla) {
+        this.detallesTaquilla = detallesTaquilla;
     }
 
     @Override
